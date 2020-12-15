@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.koreait.board3.common.Utils;
+import com.koreait.board3.model.UserModel;
 
 @WebServlet("/join")
 public class JoinSer extends HttpServlet {

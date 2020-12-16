@@ -9,8 +9,8 @@
 </head>
 <body>
 	<div>
-		<div>  <!-- onsubmit="return joinConfirm();" -->
-			<form id="joinFrm" action="/join" method="post">
+		<div> 
+			<form id="joinFrm" action="/join" method="post" onsubmit="return joinConfirm();">
 				<div><input type="text" name="user_id" placeholder="아이디" required></div>
 				<div><input type="password" name="user_pw" placeholder="비밀번호" required></div>
 				<div><input type="password" name="user_pw_chk" placeholder="비밀번호 확인"></div>

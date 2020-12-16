@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CommonDAO {
-
+//  insert, update, delete 에서 사용
 	public static int executeUpdate(String sql, SQLInterUpdate siu) {
 		 Connection conn = null;
 		 PreparedStatement pstmt = null;

@@ -17,7 +17,11 @@ public class LoginSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		
+		if(!Utils.isLogout(request)) {  // 로그인 상태일 경우
+			response.sendRedirect("/main"); // main으로 
+			return;
+		}
 		
 		Utils.forward("로그인", "user/login", request, response);
 	}
@@ -27,9 +31,24 @@ public class LoginSer extends HttpServlet {
 		int result = UserService.login(request);
 		
 		if(result == 1) {
-			response.sendRedirect("/loginChk.jsp");
+			response.sendRedirect("/main");
 			return;
 		}
+		
+		switch (result) {
+		case 2:
+			request.setAttribute("msg", "아이디를 확인해주세요.");
+			break;
+		case 3:
+			request.setAttribute("msg", "비밀번호가 다릅니다.");
+			break;
+		}
+		
+//		로그인 실패 시 입력한 아이디 값 유지
+		String user_id = request.getParameter("user_id");
+		request.setAttribute("id", user_id);
+		
+		doGet(request, response);
 		
 		System.out.println("result = " + result);
 	}

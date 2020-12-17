@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.koreait.board3.common.SecurityUtils;
 import com.koreait.board3.common.Utils;
 import com.koreait.board3.model.UserModel;
 
@@ -15,7 +16,7 @@ public class JoinSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(!Utils.isLogout(request)) {  // 로그인 상태일 경우
+		if(!SecurityUtils.isLogout(request)) {  // 로그인 상태일 경우
 			response.sendRedirect("/main"); // main으로
 			return;
 		}

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.koreait.board3.common.SecurityUtils;
 import com.koreait.board3.common.Utils;
 import com.koreait.board3.db.UserDAO;
 import com.koreait.board3.model.UserModel;
@@ -18,7 +19,7 @@ public class LoginSer extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(!Utils.isLogout(request)) {  // 로그인 상태일 경우
+		if(!SecurityUtils.isLogout(request)) {  // 로그인 상태일 경우
 			response.sendRedirect("/main"); // main으로 
 			return;
 		}

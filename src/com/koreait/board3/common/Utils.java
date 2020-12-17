@@ -10,18 +10,6 @@ import javax.servlet.http.HttpSession;
 import com.koreait.board3.model.UserModel;
 
 public class Utils { 
-	
-//	true -> 로그아웃 상태 / false -> 로그인 상태
-	public static boolean isLogout(HttpServletRequest request) {
-		return getLoginUser(request) == null;
-	}
-	
-	public static UserModel getLoginUser(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		
-		return (UserModel)session.getAttribute("loginUser");
-	}
-	
 													// 공통 페이지              
 	public static void forwardTemp(String title, String openPage, String innerPage, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("page", String.format("/WEB-INF/view/%s.jsp", innerPage));

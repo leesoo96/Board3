@@ -5,10 +5,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.tomcat.util.codec.binary.Base64;
+
+import com.koreait.board3.model.UserModel;
 
 public class SecurityUtils {
 	
+//	비밀번호 암호화
 	public static String getSecurePassword(String password, String salt) {
 
         String generatedPassword = null;
@@ -34,4 +40,24 @@ public class SecurityUtils {
         random.nextBytes(salt);
         return Base64.encodeBase64String(salt);
     }
+//  -----------------------------------------------------------------------  
+    
+//	true -> 로그아웃 상태 / false -> 로그인 상태
+	public static boolean isLogout(HttpServletRequest request) {
+		return getLoginUser(request) == null;
+	}
+	
+	public static UserModel getLoginUser(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		return (UserModel)session.getAttribute("loginUser");
+	}
+//	------------------------------------------------------------------------
+	
+//	i_user -> 글 작성자
+	public static int getLoginI_User(HttpServletRequest request) {
+		UserModel m = getLoginUser(request);
+		
+		return m.getI_user();
+	}
 }

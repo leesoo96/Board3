@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title }</title>
-<link rel="stylesheet" href="/res/css/common.css">
+<link rel="stylesheet" href="/res/css/common.css?ver=1">
 <c:forEach items="${jsList }" var="item">
 	<script defer src="/res/js/${item }.js"></script>
 </c:forEach>
@@ -16,7 +16,7 @@
 	<div id="container">
 		<header>
 			<ul>
-			  <li>${loginUser.nm } 님, 환영합니다!</li>
+			  <li class="mains"><a href="/main">${loginUser.nm } 님, 환영합니다!</a></li>
 			  <li><a href="/logout">로그아웃</a></li>
 			  
 			  			<!-- typ값은 여기서 정해줬다! -->

@@ -3,9 +3,11 @@ package com.koreait.board3.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.koreait.board3.model.BoardModel;
 import com.koreait.board3.model.BoardParam;
 import com.koreait.board3.model.BoardSEL;
 
@@ -51,4 +53,43 @@ public class BoardDAO extends CommonDAO{
 		
 		return list;
 	}
+	
+//	글 읽기
+	public static BoardSEL readCtnt(BoardParam param) {
+		BoardSEL sel = new BoardSEL();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = " SELECT A.seq, A.title, A.ctnt, "
+					+ " A.r_dt, A.hits, A.i_user, B.nm "
+					+ " FROM t_board A "
+					+ " INNER JOIN t_user B "
+					+ " ON A.i_user = B.i_user "
+					+ " WHERE A.i_board = ? ";
+		
+		try {
+			conn = DBUtils.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, param.getI_board());
+			
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {			
+				sel.setSeq(rs.getInt("seq"));
+				sel.setTitle(rs.getNString("title"));
+				sel.setCtnt(rs.getNString("ctnt"));
+				sel.setR_dt(rs.getString("r_dt"));
+				sel.setHits(rs.getInt("hits"));
+				sel.setNm(rs.getString("nm"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(conn, pstmt, rs);
+		}
+		
+		return sel;
+	}
+	
 }

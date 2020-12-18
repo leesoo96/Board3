@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.koreait.board3.common.SecurityUtils;
 import com.koreait.board3.common.Utils;
 import com.koreait.board3.db.BoardDAO;
+import com.koreait.board3.db.CommonDAO;
 import com.koreait.board3.db.SQLInterUpdate;
 import com.koreait.board3.model.BoardParam;
 import com.koreait.board3.model.BoardSEL;
@@ -22,6 +23,16 @@ public class BoardService {
 		param.setTyp(typ);
 		
 		return BoardDAO.showListAll(param);
+	}
+	
+// 	글 읽기
+	public static BoardSEL readCtnt(HttpServletRequest request) {
+		int i_board = Utils.getIntParam(request, "i_board");
+	
+		BoardParam param = new BoardParam();
+		param.setI_board(i_board);
+		
+		return BoardDAO.readCtnt(param);
 	}
 	
 //	글 등록 / 글 수정
@@ -57,5 +68,23 @@ public class BoardService {
 		}
 		
 		return 0;
+	}
+	
+//	글 삭제
+	public static int delBoard(HttpServletRequest request) {
+		int i_board = Utils.getIntParam(request, "i_board");
+		int i_user = Utils.getIntParam(request, "i_user");
+		
+		String sql = " DELETE FROM t_board WHERE i_board = ? "
+					 + " AND i_user = ? ";
+		
+		return CommonDAO.executeUpdate(sql, new SQLInterUpdate() {
+			
+			@Override
+			public void proc(PreparedStatement pstmt) throws SQLException {
+				pstmt.setInt(1, i_board);
+				pstmt.setInt(2, i_user);
+			}
+		});
 	}
 }

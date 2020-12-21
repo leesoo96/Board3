@@ -28,7 +28,10 @@ public class BoardService {
 // 	글 읽기
 	public static BoardSEL readCtnt(HttpServletRequest request) {
 		int i_board = Utils.getIntParam(request, "i_board");
-	
+		if(i_board == 0) {
+			return null;
+		}
+		
 		BoardParam param = new BoardParam();
 		param.setI_board(i_board);
 		
@@ -36,7 +39,7 @@ public class BoardService {
 	}
 	
 //	글 등록 / 글 수정
-	public static int regMod(HttpServletRequest request) {
+	public static String regMod(HttpServletRequest request) {
 		int i_board = Utils.getIntParam(request, "i_board");
 		int typ = Utils.getIntParam(request, "typ");
 		String title = request.getParameter("title");
@@ -62,12 +65,26 @@ public class BoardService {
 					pstmt.setInt(4, i_user);
 					pstmt.setInt(5, typ);
 				}
-			});
+			});		
+		 return "bDetail?i_board=" + i_board;
 		}else { // 수정
+			String sql = " UPDATE t_board "
+						 + " SET title = ?, ctnt = ? "
+						 + " WHERE i_board = ? "
+						 + " AND i_user = ? ";
 			
+			BoardDAO.executeUpdate(sql, new SQLInterUpdate() {
+				
+				@Override
+				public void proc(PreparedStatement pstmt) throws SQLException {
+					pstmt.setNString(1, title);
+					pstmt.setNString(2, ctnt);
+					pstmt.setInt(3, i_board);
+					pstmt.setInt(4, SecurityUtils.getLoginI_User(request));
+				} // 업데이트되면 1이 넘어온다
+			});
+		 return "list?typ=" + typ;
 		}
-		
-		return 0;
 	}
 	
 //	글 삭제
@@ -75,10 +92,11 @@ public class BoardService {
 		int i_board = Utils.getIntParam(request, "i_board");
 		int i_user = Utils.getIntParam(request, "i_user");
 		
-		String sql = " DELETE FROM t_board WHERE i_board = ? "
-					 + " AND i_user = ? ";
+		String sql = " DELETE FROM t_board "
+				 	 + " WHERE i_board = ? "
+				 	 + " AND i_user = ? ";
 		
-		return CommonDAO.executeUpdate(sql, new SQLInterUpdate() {
+		return BoardDAO.executeUpdate(sql, new SQLInterUpdate() {
 			
 			@Override
 			public void proc(PreparedStatement pstmt) throws SQLException {

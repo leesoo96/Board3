@@ -10,20 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.koreait.board3.common.SecurityUtils;
 import com.koreait.board3.common.Utils;
 
-@WebServlet("/BoardDelSer")
+@WebServlet("/board/bDel")
 public class BoardDelSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int result = BoardService.delBoard(request);
+
 		int typ = Utils.getIntParam(request, "typ");
-		
-		BoardService.delBoard(request);
-		
 		response.sendRedirect("list?typ=" + typ);
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
-
 }

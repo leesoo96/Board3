@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/res/css/bDetail.css">
+
 <div id="detailWrap">
 <form action="bDetail" method="post" onsubmit="return delConfirm();">
 	<div>
@@ -17,17 +18,16 @@
 
 <c:if test="${contents.i_user == loginUser.i_user }">
 	<button onclick="clickDel(${contents.i_board},${contents.typ });">삭제하기</button>
-	<a href="bRegmod?i_board=${contents.i_board}">
+	<a href="bRegmod?typ=${contents.typ }&i_board=${contents.i_board}">
 		<button>수정하기</button>
 	</a>
 </c:if>
 
 	<div style="margin:10px;">
 		<div>
-			<form action="/cmt" method="post">
-				<input type="hidden" name="typ" value="${contents.typ }">
+			<form action="cmt/reg" method="post">
 				<input type="hidden" name="i_board" value="${contents.i_board }">
-				댓글 : <input type="text" name="cmt_ctnt">
+				댓글 : <input type="text" name="ctnt">
 				<input type="submit" value="댓글쓰기">
 			</form>
 		</div>
@@ -37,9 +37,10 @@
 				<tr>
 					<th>댓글 목록</th>
 				</tr>
-				<c:forEach items="${cmtContents }" var="item">
+				<c:forEach items="${cmtCtnt }" var="item">
 					<tr>
 						<td>${item.ctnt }</td>
+						<td>${item.r_dt }</td>
 					</tr>
 				</c:forEach>
 			</table>

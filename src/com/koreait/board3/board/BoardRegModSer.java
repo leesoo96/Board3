@@ -22,6 +22,11 @@ public class BoardRegModSer extends HttpServlet {
 			return;
 		}
 		
+		int i_board = Utils.getIntParam(request, "i_board");
+		if(i_board > 0) { // 글 수정
+			request.setAttribute("data", BoardService.readCtnt(request));
+		}
+		
 		request.setAttribute("typ", typ);
 		request.setAttribute("jsList", new String[]{"board"});
 		
@@ -29,10 +34,16 @@ public class BoardRegModSer extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int result = BoardService.regMod(request);
-		String typ = request.getParameter("typ");
-		
-		response.sendRedirect("list?typ=" + typ);
-	}
+/*		int result = BoardService.regMod(request);
+		int i_board = Utils.getIntParam(request, "i_board");
 
+		if(i_board > 0) {
+			response.sendRedirect("bDetail?i_board=" + i_board);
+		}else {
+			int typ = Utils.getIntParam(request, "typ");
+			response.sendRedirect("list?typ=" + typ);
+		}
+*/		// 한 줄로 코드 수정!
+		response.sendRedirect(BoardService.regMod(request));
+	}
 }

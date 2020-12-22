@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.koreait.board3.board.cmt.BoardCmtService;
 import com.koreait.board3.common.SecurityUtils;
 import com.koreait.board3.common.Utils;
 import com.koreait.board3.db.BoardDAO;
@@ -23,12 +24,19 @@ public class BoardDetailSer extends HttpServlet {
 			response.sendRedirect("/login"); 
 			return;
 		}
+
+		int err = Utils.getIntParam(request, "err");
+		switch (err) {
+		case 1:
+			request.setAttribute("err", "댓글 내용이 너무 깁니다.");
+			break;
+		}
 		
 		request.setAttribute("jsList", new String[]{"board"});
 		
 		BoardSEL contents = BoardService.readCtnt(request);
 		request.setAttribute("contents", contents);
-		
+
 		Utils.forwardTemp(contents.getTitle(), "temp/basic_temp", "board/bDetail", request, response);
 	}
 }

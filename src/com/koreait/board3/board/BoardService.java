@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.koreait.board3.common.SecurityUtils;
 import com.koreait.board3.common.Utils;
+import com.koreait.board3.db.BoardCmtDAO;
 import com.koreait.board3.db.BoardDAO;
-import com.koreait.board3.db.CommonDAO;
 import com.koreait.board3.db.SQLInterUpdate;
+import com.koreait.board3.model.BoardCmtSEL;
 import com.koreait.board3.model.BoardParam;
 import com.koreait.board3.model.BoardSEL;
 
@@ -34,6 +35,7 @@ public class BoardService {
 		
 		BoardParam param = new BoardParam();
 		param.setI_board(i_board);
+		request.setAttribute("cmtCtnt", BoardCmtDAO.showListCmt(param));
 		
 		return BoardDAO.readCtnt(param);
 	}
@@ -90,7 +92,7 @@ public class BoardService {
 //	글 삭제
 	public static int delBoard(HttpServletRequest request) {
 		int i_board = Utils.getIntParam(request, "i_board");
-		int i_user = Utils.getIntParam(request, "i_user");
+		int i_user = SecurityUtils.getLoginI_User(request);
 		
 		String sql = " DELETE FROM t_board "
 				 	 + " WHERE i_board = ? "

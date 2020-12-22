@@ -35,12 +35,20 @@
 		<div>
 			<table>
 				<tr>
-					<th>댓글 목록</th>
+					<th>[댓글목록]</th>
 				</tr>
+				
 				<c:forEach items="${cmtCtnt }" var="item">
 					<tr>
 						<td>${item.ctnt }</td>
+						<td>${item.user_nm }</td>		
 						<td>${item.r_dt }</td>
+						<td>
+					  	<c:if test="${item.i_user == loginUser.i_user }">
+								<button>수정</button>	
+								<a href="cmt/del?i_board=${contents.i_board }&i_cmt=${item.i_cmt}"><button>삭제</button></a>		
+					  	</c:if>	
+						</td>	
 					</tr>
 				</c:forEach>
 			</table>
@@ -50,13 +58,6 @@
 <a href="list?typ=${contents.typ}">돌아가기</a>
 
 <script>
-	function delConfirm(){
-		var alert = confirm('정말 삭제하시겠습니까?');
-		if(!alert){
-			return false;
-		}
-	}
-	
 	<c:if test="${msg != null}">
 		alert('${msg}');
 	</c:if>

@@ -19,7 +19,6 @@ public class BoardCmtService {
 
 //	댓글 쓰기
 	public static String regCmt(HttpServletRequest request) {
-		int typ = Utils.getIntParam(request, "typ");
 		int i_board = Utils.getIntParam(request, "i_board");
 		int i_user = SecurityUtils.getLoginI_User(request);
 		String ctnt = request.getParameter("ctnt");
@@ -38,6 +37,30 @@ public class BoardCmtService {
 			}
 		});
 //	  return "/board/bDetail?i_board=" + i_board;
+	  return "../bDetail?i_board=" + i_board;
+	}
+	
+//	댓글 수정
+	public static String mod(HttpServletRequest request) {
+		int i_board = Utils.getIntParam(request, "i_board");
+		int i_cmt = Utils.getIntParam(request, "i_cmt");
+		int i_user = SecurityUtils.getLoginI_User(request);
+		String ctnt = request.getParameter("ctnt");
+		
+		String sql = " UPDATE t_board_cmt "
+					 + " SET ctnt = ? "
+					 + " WHERE i_cmt = ? "
+					 + " AND i_user = ? ";
+		
+		BoardDAO.executeUpdate(sql, new SQLInterUpdate() {
+			
+			@Override
+			public void proc(PreparedStatement pstmt) throws SQLException {
+				pstmt.setNString(1, ctnt);
+				pstmt.setInt(2, i_cmt);
+				pstmt.setInt(3, i_user);
+			}
+		});
 	  return "../bDetail?i_board=" + i_board;
 	}
 	

@@ -9,12 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.koreait.board3.common.SecurityUtils;
 
-@WebServlet("/board/cmt/del")
-public class BoardCmtDelSer extends HttpServlet {
+@WebServlet("/board/cmt/mod")
+public class BoardCmtModSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(SecurityUtils.isLogout(request)) {  
+			response.sendRedirect("/login"); 
+			return;
+		} 
 		
-		response.sendRedirect(BoardCmtService.del(request));
+		response.sendRedirect(BoardCmtService.mod(request));
 	}
 }

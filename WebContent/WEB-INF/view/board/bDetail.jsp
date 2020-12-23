@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<link rel="stylesheet" href="/res/css/bDetail.css">
+<link rel="stylesheet" href="/res/css/bDetail.css?ver=2">
 
 <div id="detailWrap">
 <form action="bDetail" method="post" onsubmit="return delConfirm();">
@@ -45,15 +45,40 @@
 						<td>${item.r_dt }</td>
 						<td>
 					  	<c:if test="${item.i_user == loginUser.i_user }">
-								<button>수정</button>	
+								<button onclick="cmtMod(${item.i_cmt });">수정</button>	
 								<a href="cmt/del?i_board=${contents.i_board }&i_cmt=${item.i_cmt}"><button>삭제</button></a>		
 					  	</c:if>	
 						</td>	
 					</tr>
+					
+					<c:if test="${item.i_user == loginUser.i_user }">
+						<tr id="mod_${item.i_cmt }" class="cmt_mod_form">
+							<td colspan="4">
+								<form action="cmt/mod" method="post">
+									<input type="hidden" name="i_board" value="${contents.i_board }" />
+									<input type="hidden" name="i_cmt" value="${item.i_cmt }" /> 
+									<input type="text" name="ctnt" value="${item.ctnt }" />
+									<input type="submit" value="수정하기" />
+									<button type="button" onclick="cmtModClose(${item.i_cmt });">닫기</button>
+								</form>
+							</td>
+						</tr>
+				    </c:if>	
 				</c:forEach>
 			</table>
 		</div>
 	</div>
+	<div id="favoriteFunc">
+		<c:choose>
+			<c:when test="${contents.is_favorite == 1 }">
+				<i class="fas fa-heart"></i>
+			</c:when>
+			<c:otherwise>
+				<i class="far fa-heart"></i>
+			</c:otherwise>
+		</c:choose>	
+	</div>
+	<p>${contents.is_favorite}</p>
 </div>
 <a href="list?typ=${contents.typ}">돌아가기</a>
 

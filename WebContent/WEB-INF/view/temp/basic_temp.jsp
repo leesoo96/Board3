@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>${title }</title>
-<link rel="stylesheet" href="/res/css/common.css?ver=1">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet" href="/res/css/common.css?ver=2">
 <c:forEach items="${jsList }" var="item">
 	<script defer src="/res/js/${item }.js"></script>
 </c:forEach>

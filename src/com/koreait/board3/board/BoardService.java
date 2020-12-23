@@ -35,6 +35,8 @@ public class BoardService {
 		
 		BoardParam param = new BoardParam();
 		param.setI_board(i_board);
+		param.setI_user(SecurityUtils.getLoginI_User(request));
+		
 		request.setAttribute("cmtCtnt", BoardCmtDAO.showListCmt(param));
 		
 		return BoardDAO.readCtnt(param);

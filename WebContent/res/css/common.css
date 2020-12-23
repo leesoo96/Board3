@@ -69,3 +69,7 @@ header a {
 	justify-content: center;
 	align-items: center;
 }
+
+section {
+	position: relative;
+}

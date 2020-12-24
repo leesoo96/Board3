@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<link rel="stylesheet" href="/res/css/bDetail.css?ver=2">
+<link rel="stylesheet" href="/res/css/bDetail.css?ver=1">
 
 <div id="detailWrap">
 <form action="bDetail" method="post" onsubmit="return delConfirm();">
@@ -68,20 +68,21 @@
 			</table>
 		</div>
 	</div>
-	<div id="favoriteFunc">
+	<div id="favoriteFunc" is_favorite="${contents.is_favorite}" 
+		 onclick="toggleFavorite(${contents.i_board});">
 		<c:choose>
 			<c:when test="${contents.is_favorite == 1 }">
 				<i class="fas fa-heart"></i>
 			</c:when>
 			<c:otherwise>
-				<i class="far fa-heart"></i>
+				<i class="far fa-heart"></i>  <!-- == 0 -->
 			</c:otherwise>
 		</c:choose>	
 	</div>
-	<p>${contents.is_favorite}</p>
 </div>
 <a href="list?typ=${contents.typ}">돌아가기</a>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 	<c:if test="${msg != null}">
 		alert('${msg}');
